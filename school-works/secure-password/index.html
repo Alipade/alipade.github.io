@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>คู่มือรหัสผ่านที่ปลอดภัย</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <style>
+    /* This code made by AI because im lazy to make something like this */
+    :root {
+      --bg-gradient: linear-gradient(to bottom right, #1e1b4b, #4c1d95, #86198f);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Noto Sans Thai', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-gradient);
+      color: white;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .container { padding: 32px; }
+    }
+
+    @media (min-width: 1024px) {
+      .container { padding: 48px; }
+    }
+
+    /* Background blobs */
+    .blobs {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      mix-blend-mode: screen;
+      animation: pulse 10s infinite ease-in-out;
+    }
+
+    .blob-1 {
+      width: 300px; height: 300px;
+      background: #3b82f6;
+      top: 10%; left: 5%;
+      opacity: 0.3;
+    }
+
+    .blob-2 {
+      width: 400px; height: 400px;
+      background: #a855f7;
+      top: 30%; right: 5%;
+      opacity: 0.2;
+      animation-delay: 2s;
+    }
+
+    .blob-3 {
+      width: 350px; height: 350px;
+      background: #ec4899;
+      bottom: 10%; left: 20%;
+      opacity: 0.25;
+      animation-delay: 4s;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.2; }
+      50% { transform: scale(1.2); opacity: 0.35; }
+    }
+
+    @media (min-width: 768px) {
+      .blob-1 { width: 500px; height: 500px; top: 15%; left: 10%; }
+      .blob-2 { width: 600px; height: 600px; top: 20%; right: 10%; }
+      .blob-3 { width: 500px; height: 500px; bottom: 15%; left: 30%; }
+    }
+
+    /* Card base */
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 32px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 24px;
+      margin-bottom: 32px;
+      transition: all 0.7s ease;
+      position: relative;
+      z-index: 10;
+    }
+
+    @media (min-width: 640px) {
+      .card { padding: 40px; }
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4);
+      transform: translateY(-4px);
+    }
+
+    /* Typography */
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-align: center;
+      margin: 16px 0;
+      line-height: 1.2;
+    }
+
+    @media (min-width: 640px) {
+      h1 { font-size: 3.75rem; }
+    }
+
+    @media (min-width: 1024px) {
+      h1 { font-size: 5rem; }
+    }
+
+    h2 {
+      font-size: 1.875rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    @media (min-width: 640px) {
+      h2 { font-size: 2.25rem; gap: 16px; }
+    }
+
+    /* Grids */
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .grid-cols-1-2 {
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+      .grid-cols-1-2 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .grid-cols-1-3 {
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 640px) {
+      .grid-cols-1-3 { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (min-width: 1024px) {
+      .grid-cols-1-3 { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Input */
+    .password-input {
+      width: 100%;
+      padding: 16px 20px;
+      padding-right: 80px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 24px;
+      color: white;
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .password-input::placeholder {
+      color: rgba(147, 197, 253, 0.6);
+    }
+
+    .password-input:focus {
+      border-color: rgba(168, 85, 247, 0.6);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.3);
+    }
+
+    .input-wrapper {
+      position: relative;
+      margin-bottom: 32px;
+    }
+
+    .input-actions {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-icon {
+      padding: 10px;
+      background: transparent;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      color: #93c5fd;
+      transition: background 0.3s;
+    }
+
+    .btn-icon:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Primary button */
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(to right, #3b82f6, #a855f7, #ec4899);
+      color: white;
+      font-size: 1.125rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: all 0.3s;
+      box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(139, 92, 246, 0.6);
+    }
+
+    /* Strength bar - Fixed visibility */
+    .strength-bar-bg {
+      height: 20px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 20px 0;
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .strength-bar-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      transition: width 0.7s ease;
+      background: linear-gradient(to right, #10b981, #059669);
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.5);
+    }
+
+    /* Check items */
+    .check-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+
+    .check-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Scroll animation */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Header shield */
+    .shield-wrapper {
+      display: inline-flex;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 32px;
+      margin-bottom: 32px;
+      transition: transform 0.5s;
+    }
+
+    .shield-wrapper:hover {
+      transform: scale(1.1);
+    }
+
+    /* Footer */
+    .footer-box {
+      display: inline-block;
+      padding: 16px 32px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 32px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="blobs">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <section class="animate-on-scroll text-center py-8">
+      <div class="shield-wrapper">
+        <i data-lucide="shield" class="w-16 h-16 sm:w-24 sm:h-24 text-blue-300"></i>
+      </div>
+      <h1>คู่มือรหัสผ่านที่ปลอดภัย</h1>
+      <p class="text-lg sm:text-2xl text-blue-200 font-light">สร้างรหัสผ่านที่แกะไม่ได้ในไม่กี่วินาที</p>
+    </section>
+
+    <!-- Test Password -->
+    <section class="animate-on-scroll card">
+      <h2><i data-lucide="alert-circle" class="w-8 h-8 sm:w-10 sm:h-10 text-purple-300"></i> ทดสอบรหัสผ่านของคุณ</h2>
+
+      <div class="input-wrapper">
+        <input type="password" id="userPassword" class="password-input" placeholder="พิมพ์รหัสผ่านที่ต้องการทดสอบ">
+        <div class="input-actions">
+          <button id="toggleUserPwd" class="btn-icon">
+            <i data-lucide="eye" id="eyeOnUser" class="w-6 h-6"></i>
+            <i data-lucide="eye-off" id="eyeOffUser" class="w-6 h-6 hidden"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="userStrengthResult" class="hidden space-y-6 p-8 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-3xl border border-white/30">
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+          <span class="font-medium text-blue-200 text-lg">ระดับความปลอดภัย:</span>
+          <span id="userStrengthLabel" class="text-2xl sm:text-3xl font-bold bg-gradient-to-r bg-clip-text text-transparent">แข็งแกร่ง</span>
+        </div>
+        <div class="strength-bar-bg">
+          <div id="userStrengthBar" class="strength-bar-fill bg-gradient-to-r from-green-400 to-emerald-500"></div>
+        </div>
+        <div class="check-grid" id="userChecksGrid"></div>
+      </div>
+    </section>
+
+    <!-- Generator -->
+    <section class="animate-on-scroll card">
+      <h2><i data-lucide="lock" class="w-8 h-8 sm:w-10 sm:h-10 text-blue-300"></i> เครื่องมือสร้างรหัสผ่าน</h2>
+
+      <div class="input-wrapper">
+        <input type="password" id="generatedPassword" class="password-input" style="font-family: 'SF Mono', Monaco, monospace;" placeholder="กรอกหรือสร้างรหัสผ่าน" readonly>
+        <div class="input-actions">
+          <button id="togglePwd" class="btn-icon">
+            <i data-lucide="eye" id="eyeOn" class="w-6 h-6"></i>
+            <i data-lucide="eye-off" id="eyeOff" class="w-6 h-6 hidden"></i>
+          </button>
+          <button id="copyBtn" class="btn-icon hidden">
+            <i data-lucide="copy" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+
+      <button id="generateBtn" class="btn-primary">
+        <i data-lucide="refresh-cw" class="w-6 h-6 sm:w-7 sm:h-7"></i>
+        สร้างรหัสผ่านที่ปลอดภัย
+      </button>
+
+      <div id="strengthResult" class="mt-8 space-y-4 p-6 bg-white/5 rounded-2xl border border-white/20">
+        <div class="flex justify-between items-center">
+          <span class="font-medium text-blue-200 text-lg">ความแข็งแกร่ง:</span>
+          <span id="strengthLabel" class="font-bold text-xl sm:text-2xl text-white">แข็งแกร่ง</span>
+        </div>
+        <div class="strength-bar-bg">
+          <div id="strengthBar" class="strength-bar-fill bg-gradient-to-r from-green-400 to-emerald-500"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Requirements & Practices -->
+    <div class="grid grid-cols-1-2">
+      <section class="animate-on-scroll card">
+        <h2 class="text-2xl mb-6">ข้อกำหนดรหัสผ่าน</h2>
+        <div id="checksList" class="space-y-4"></div>
+      </section>
+
+      <section class="animate-on-scroll card">
+        <h2 class="text-2xl mb-6">แนวทางปฏิบัติที่ดี</h2>
+        <ul class="space-y-4 text-base sm:text-lg">
+          <li class="flex gap-4 p-4 bg-white/5 rounded-2xl border border-white/10"><span class="text-blue-400 font-bold text-2xl">•</span>ใช้รหัสผ่านที่ไม่ซ้ำกันสำหรับแต่ละบัญชี</li>
+          <li class="flex gap-4 p-4 bg-white/5 rounded-2xl border border-white/10"><span class="text-blue-400 font-bold text-2xl">•</span>เปิดใช้งานการยืนยันตัวตนสองขั้นตอน</li>
+          <li class="flex gap-4 p-4 bg-white/5 rounded-2xl border border-white/10"><span class="text-blue-400 font-bold text-2xl">•</span>ใช้โปรแกรมจัดการรหัสผ่าน</li>
+          <li class="flex gap-4 p-4 bg-white/5 rounded-2xl border border-white/10"><span class="text-blue-400 font-bold text-2xl">•</span>เปลี่ยนรหัสผ่านทุก 3-6 เดือน</li>
+          <li class="flex gap-4 p-4 bg-white/5 rounded-2xl border border-white/10"><span class="text-blue-400 font-bold text-2xl">•</span>ไม่แชร์รหัสผ่านผ่านอีเมลหรือข้อความ</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Tips -->
+    <section class="animate-on-scroll grid grid-cols-1-3">
+      <div class="card bg-gradient-to-br from-red-500/20 to-pink-500/20">
+        <div class="text-5xl sm:text-6xl mb-4">⛔</div>
+        <h3 class="text-xl sm:text-2xl font-bold mb-3">หลีกเลี่ยง</h3>
+        <p class="text-blue-100 text-sm sm:text-base">ข้อมูลส่วนตัว คำทั่วไป ตัวเลขต่อเนื่อง หรือรูปแบบจากคีย์บอร์ด</p>
+      </div>
+      <div class="card bg-gradient-to-br from-green-500/20 to-emerald-500/20">
+        <div class="text-5xl sm:text-6xl mb-4">✅</div>
+        <h3 class="text-xl sm:text-2xl font-bold mb-3">ใช้</h3>
+        <p class="text-blue-100 text-sm sm:text-base">การผสมตัวอักษร ตัวเลข และสัญลักษณ์แบบสุ่มที่ไม่มีรูปแบบ</p>
+      </div>
+      <div class="card bg-gradient-to-br from-blue-500/20 to-purple-500/20">
+        <div class="text-5xl sm:text-6xl mb-4">💡</div>
+        <h3 class="text-xl sm:text-2xl font-bold mb-3">เคล็ดลับ</h3>
+        <p class="text-blue-100 text-sm sm:text-base">สร้างวลีรหัสผ่านโดยใช้คำสุ่มผสมกับตัวเลขและสัญลักษณ์</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <section class="animate-on-scroll text-center py-12">
+      <div class="footer-box">
+        <p class="font-medium text-base sm:text-lg">ปลอดภัยออนไลน์ • ปกป้องตัวตนดิจิทัลของคุณ</p>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const generatedPasswordInput = document.getElementById('generatedPassword');
+    const userPasswordInput = document.getElementById('userPassword');
+    const generateBtn = document.getElementById('generateBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const togglePwd = document.getElementById('togglePwd');
+    const toggleUserPwd = document.getElementById('toggleUserPwd');
+
+    let showPwd = false;
+    let showUserPwd = false;
+
+    togglePwd.onclick = () => {
+      showPwd = !showPwd;
+      generatedPasswordInput.type = showPwd ? 'text' : 'password';
+      document.getElementById('eyeOn').classList.toggle('hidden', showPwd);
+      document.getElementById('eyeOff').classList.toggle('hidden', !showPwd);
+    };
+
+    toggleUserPwd.onclick = () => {
+      showUserPwd = !showUserPwd;
+      userPasswordInput.type = showUserPwd ? 'text' : 'password';
+      document.getElementById('eyeOnUser').classList.toggle('hidden', showUserPwd);
+      document.getElementById('eyeOffUser').classList.toggle('hidden', !showUserPwd);
+    };
+
+    function generatePassword() {
+      const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}';
+      let pwd = '';
+      for (let i = 0; i < 16; i++) {
+        pwd += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      generatedPasswordInput.value = pwd;
+      analyzePassword(pwd, true);
+      copyBtn.classList.remove('hidden');
+      document.getElementById('strengthResult').classList.remove('hidden');
+    }
+
+    generateBtn.onclick = generatePassword;
+
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(generatedPasswordInput.value);
+      copyBtn.innerHTML = '<i data-lucide="check" class="w-6 h-6 text-green-400"></i>';
+      lucide.createIcons();
+      setTimeout(() => {
+        copyBtn.innerHTML = '<i data-lucide="copy" class="w-6 h-6"></i>';
+        lucide.createIcons();
+      }, 2000);
+    };
+
+    function analyzePassword(pwd, isGenerated = false) {
+      const checks = {
+        length: pwd.length >= 12,
+        uppercase: /[A-Z]/.test(pwd),
+        lowercase: /[a-z]/.test(pwd),
+        number: /[0-9]/.test(pwd),
+        special: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd)
+      };
+
+      const score = Object.values(checks).filter(Boolean).length;
+
+      let label = '', color = 'from-green-400 to-emerald-500';
+      if (score === 0) label = '';
+      else if (score <= 2) { label = 'อ่อนแอ'; color = 'from-red-500 to-pink-500'; }
+      else if (score === 3) { label = 'ปานกลาง'; color = 'from-orange-500 to-yellow-500'; }
+      else if (score === 4) { label = 'ดี'; color = 'from-yellow-400 to-green-500'; }
+      else { label = 'แข็งแกร่ง'; color = 'from-green-400 to-emerald-500'; }
+
+      if (isGenerated) {
+        // Generator section
+        document.getElementById('strengthLabel').textContent = label || 'ยังไม่มีรหัสผ่าน';
+        document.getElementById('strengthBar').style.width = `${(score / 5) * 100}%`;
+        document.getElementById('strengthBar').className = `strength-bar-fill bg-gradient-to-r ${color}`;
+        document.getElementById('strengthResult').classList.toggle('hidden', score === 0);
+
+        // Update ข้อกำหนดรหัสผ่าน (Requirements checks)
+        const checksList = document.getElementById('checksList');
+        checksList.innerHTML = '';
+        const items = [
+          { key: 'length', label: 'อย่างน้อย 12 ตัวอักษร' },
+          { key: 'uppercase', label: 'ตัวพิมพ์ใหญ่ (A-Z)' },
+          { key: 'lowercase', label: 'ตัวพิมพ์เล็ก (a-z)' },
+          { key: 'number', label: 'ตัวเลข (0-9)' },
+          { key: 'special', label: 'อักขระพิเศษ (!@#$)' }
+        ];
+        items.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'check-item';
+          div.innerHTML = checks[item.key]
+            ? `<i data-lucide="check-circle" class="w-6 h-6 sm:w-8 sm:h-8 text-green-400"></i><span class="font-medium text-white">${item.label}</span>`
+            : `<i data-lucide="x-circle" class="w-6 h-6 sm:w-8 sm:h-8 text-red-400/50"></i><span class="text-blue-300/70">${item.label}</span>`;
+          checksList.appendChild(div);
+        });
+        lucide.createIcons();
+      } else {
+        // User test section
+        document.getElementById('userStrengthLabel').textContent = label || 'ยังไม่มีรหัสผ่าน';
+        document.getElementById('userStrengthLabel').className = `text-2xl sm:text-3xl font-bold bg-gradient-to-r ${color} bg-clip-text text-transparent`;
+        document.getElementById('userStrengthBar').style.width = `${(score / 5) * 100}%`;
+        document.getElementById('userStrengthBar').className = `strength-bar-fill bg-gradient-to-r ${color}`;
+        document.getElementById('userStrengthResult').classList.toggle('hidden', score === 0);
+
+        const grid = document.getElementById('userChecksGrid');
+        grid.innerHTML = '';
+        const userItems = [
+          { key: 'length', label: 'ยาว 12+ ตัว' },
+          { key: 'uppercase', label: 'ตัวพิมพ์ใหญ่' },
+          { key: 'lowercase', label: 'ตัวพิมพ์เล็ก' },
+          { key: 'number', label: 'ตัวเลข' },
+          { key: 'special', label: 'อักขระพิเศษ' }
+        ];
+        userItems.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'check-item';
+          div.innerHTML = checks[item.key]
+            ? `<i data-lucide="check-circle" class="w-6 h-6 text-green-400"></i><span class="font-medium">${item.label}</span>`
+            : `<i data-lucide="x-circle" class="w-6 h-6 text-red-400/50"></i><span class="text-blue-300/70">${item.label}</span>`;
+          grid.appendChild(div);
+        });
+        lucide.createIcons();
+      }
+    }
+
+    // Initial update for generated password checks when generating
+    userPasswordInput.addEventListener('input', e => analyzePassword(e.target.value, false));
+
+    // Show requirements even before generating (empty state)
+    analyzePassword('', true);
+
+    // Scroll animations
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
